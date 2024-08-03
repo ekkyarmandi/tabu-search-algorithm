@@ -2,27 +2,29 @@ import numpy as np
 from func import cluster_by_vehicle, read_matrix
 
 
-def nearest_neightbourhood():
+def nearest_neighbourhood():
     """
-    Nearest Neightbourhood algorithm for calculating the initial route
+    Nearest Neighbourhood algorithm for calculating the initial route
     :param: m -> distance of matrix
     :param: n -> number of nodes
     :return: r -> collection of nodes
     """
     dom = read_matrix()
     r = [0]
-    s = 0
     n = len(dom)
-    for j in range(n - 1):
-        d = dom[s]
+    for _ in range(n):
+        i = r[-1]
+        d = dom[i]
+        d = list(map(float, d))
         for x in r:
             d[x] = 0
         d = list(filter(lambda x: x != 0, d))
         min_d = min(d)
-        b = dom[s].tolist().index(min_d)
+        b = dom[i].tolist().index(min_d)
         r.append(b)
-        if j == n - 2:
+        if len(r) == n:
             r.append(0)
+            break
     return r
 
 
@@ -65,3 +67,8 @@ def tabu_search(iteration, route, solution) -> dict:
                 solution = new_solution
                 route = swapped_route
     return solution, route
+
+
+if __name__ == "__main__":
+    solution = nearest_neighbourhood()
+    print(solution)

@@ -17,7 +17,7 @@ class Vehicle:
         self.is_feasible = True
         self.total_cost = 0
 
-    def validate_solution(self, route: list) -> None:
+    def evaluate_solution(self, route: list) -> None:
         """
         Validate the solution
         :param route: list of nodes

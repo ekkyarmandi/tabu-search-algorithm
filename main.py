@@ -1,5 +1,5 @@
 from func import cluster_by_vehicle
-from algo import tabu_search, nearest_neightbourhood
+from algo import tabu_search, nearest_neighbourhood
 from vehicle import Vehicle
 import pandas as pd
 import time
@@ -11,7 +11,7 @@ def main():
     s2 = time.time()
 
     # generate initial route nearest neightbourhood
-    initial_route = nearest_neightbourhood()
+    initial_route = nearest_neighbourhood()
 
     # define vehicles
     k1 = Vehicle(name="Pick Up", cost_per_km=1111, capacity=1500)
@@ -23,7 +23,7 @@ def main():
     output = {
         "iteration": 0,
         "cost": solution["total_cost"],
-        "solution": join_str(initial_route),
+        "solution": join_str(initial_route[1:-1]),
         "k1_route": join_str(v1.route),
         "k1_loads": v1.loads,
         "k2_route": join_str(v2.route),
@@ -44,7 +44,7 @@ def main():
     output = {
         "iteration": iteration,
         "cost": new_solution["total_cost"],
-        "solution": join_str(new_route),
+        "solution": join_str(new_route[1:-1]),
         "k1_route": join_str(v1.route),
         "k1_loads": v1.loads,
         "k2_route": join_str(v2.route),
