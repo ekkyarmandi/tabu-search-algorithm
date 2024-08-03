@@ -37,8 +37,8 @@ def cluster_by_vehicle(k1, k2, route, p=0.5):
     i = math.floor(len(route) * p)
     r1 = route[0:i]
     r2 = route[i:]
-    k1.evalulate_solution([0, *r1, 0])
-    k2.evalulate_solution([0, *r2, 0])
+    k1.evaluate_solution([0, *r1, 0])
+    k2.evaluate_solution([0, *r2, 0])
     solution["vehicle"] = [k1, k2]
     solution["total_cost"] = k1.total_cost + k2.total_cost
     solution["loads_balance"] = abs(k1.loads - k2.loads)
