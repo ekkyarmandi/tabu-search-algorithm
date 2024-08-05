@@ -63,6 +63,11 @@ def main():
     # print("----")
 
 
+def join_str(route: list) -> str:
+    route = list(map(str, route))
+    return "-".join(route)
+
+
 def save(output, filename):
     if not os.path.exists(filename):
         df = pd.DataFrame(output, index=[0])
