@@ -15,12 +15,10 @@ def nearest_neighbourhood():
     for _ in range(n):
         i = r[-1]
         d = dom[i]
-        d = list(map(float, d))
         for x in r:
             d[x] = 0
-        d = list(filter(lambda x: x != 0, d))
-        min_d = min(d)
-        b = dom[i].tolist().index(min_d)
+        min_d = min(filter(lambda x: x != 0, d))
+        b = d.tolist().index(min_d)
         r.append(b)
         if len(r) == n:
             r.append(0)
