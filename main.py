@@ -1,4 +1,4 @@
-from func import cluster_by_vehicle
+from func import cluster_by_vehicle, remove_zero
 from algo import tabu_search, nearest_neighbourhood
 from vehicle import Vehicle
 import pandas as pd
@@ -19,38 +19,26 @@ def main():
 
     # cluster the route into two and validate solution
     solution = cluster_by_vehicle(k1, k2, initial_route)
-    v1, v2 = solution["vehicle"]
-    output = {
-        "iteration": 0,
-        "cost": solution["total_cost"],
-        "solution": join_str(initial_route[1:-1]),
-        "k1_route": join_str(v1.route),
-        "k1_loads": v1.loads,
-        "k2_route": join_str(v2.route),
-        "k2_loads": v2.loads,
-        "time_leapsed": time.time() - s1,
-    }
+    output = construct_output(
+        iteration=0,
+        route=initial_route,
+        solution=solution,
+        time_leapsed=time.time() - s1,
+    )
     save(output, "result_nn.xlsx")
 
     # fix the previous solution using tabu search
-    iteration = 10000
+    max_it = 10000
     new_solution, new_route = tabu_search(
-        iteration=iteration,
-        route=initial_route,
-        solution=solution,
+        iteration=max_it, route=initial_route, solution=solution
+    )
+    output = construct_output(
+        iteration=max_it,
+        route=new_route,
+        solution=new_solution,
+        time_leapsed=time.time() - s2,
     )
 
-    v1, v2 = new_solution["vehicle"]
-    output = {
-        "iteration": iteration,
-        "cost": new_solution["total_cost"],
-        "solution": join_str(new_route[1:-1]),
-        "k1_route": join_str(v1.route),
-        "k1_loads": v1.loads,
-        "k2_route": join_str(v2.route),
-        "k2_loads": v2.loads,
-        "time_leapsed": time.time() - s2,
-    }
     save(output, "result_ts.xlsx")
 
     # print the solution
@@ -66,6 +54,23 @@ def main():
 def join_str(route: list) -> str:
     route = list(map(str, route))
     return "-".join(route)
+
+
+def construct_output(route, solution, time_leapsed, iteration):
+    v1, v2 = solution["vehicle"]
+    return {
+        "iteration": iteration,
+        "cost": solution["total_cost"],
+        "solution": join_str(remove_zero(route)),
+        "total_distance": sum([k.total_distance for k in [v1, v2]]),
+        "v1_route": join_str(v1.route),
+        "v1_loads": v1.loads,
+        "v1_total_distance": v1.total_distance,
+        "v2_route": join_str(v2.route),
+        "v2_loads": v2.loads,
+        "v2_total_distance": v2.total_distance,
+        "time_leapsed": time_leapsed,
+    }
 
 
 def save(output, filename):

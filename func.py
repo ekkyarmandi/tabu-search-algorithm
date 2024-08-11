@@ -25,6 +25,10 @@ def generate_solution(n):
         raise ValueError("n harus nilai bulat")
 
 
+def remove_zero(route):
+    return list(filter(lambda x: x != 0, route))
+
+
 def cluster_by_vehicle(k1, k2, route, p=0.5):
     # declare initial solution
     solution = {
@@ -33,7 +37,7 @@ def cluster_by_vehicle(k1, k2, route, p=0.5):
         "loads_balance": math.inf,  # loads delta
     }
     # run the clustering
-    route = route[1:-1]
+    route = remove_zero(route)
     i = math.floor(len(route) * p)
     r1 = route[0:i]
     r2 = route[i:]

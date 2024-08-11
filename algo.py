@@ -1,5 +1,5 @@
 import numpy as np
-from func import cluster_by_vehicle, read_matrix
+from func import cluster_by_vehicle, read_matrix, remove_zero
 
 
 def nearest_neighbourhood():
@@ -23,10 +23,11 @@ def nearest_neighbourhood():
         if len(r) == n:
             r.append(0)
             break
+
     return r
 
 
-def tabu_search(iteration, route, solution) -> dict:
+def tabu_search(iteration, route, solution, print_result=True) -> dict:
     """
     Tabu Search algorithm for solving the VRP
     :param: iteration -> iteration of the algorithm
@@ -48,7 +49,8 @@ def tabu_search(iteration, route, solution) -> dict:
         return i, j
 
     # define tabu list variable and TS parameters
-    tabu_list = []
+    route = remove_zero(route)
+    tabu_list = [route]
     # fix the route
     k1 = solution["vehicle"][0]
     k2 = solution["vehicle"][1]
@@ -56,7 +58,8 @@ def tabu_search(iteration, route, solution) -> dict:
         swapped_route = swap(route)
         v1, v2 = solution["vehicle"]
         total_cost = solution["total_cost"]
-        print(_, f"Rp{total_cost:,.0f}", v1, v2)
+        if print_result:
+            print(_, f"Rp{total_cost:,.0f}", v1, v2)
         if swapped_route not in tabu_list:
             tabu_list.append(swapped_route)
             # validate solution
@@ -64,7 +67,7 @@ def tabu_search(iteration, route, solution) -> dict:
             if new_solution["total_cost"] < solution["total_cost"]:
                 solution = new_solution
                 route = swapped_route
-    return solution, route
+    return solution, remove_zero(route)
 
 
 if __name__ == "__main__":

@@ -13,6 +13,7 @@ class Vehicle:
         self.cost_per_km = cost_per_km
         self.capacity = capacity
         self.route = []
+        self.total_distance = 0
         self.loads = 0
         self.is_feasible = True
         self.total_cost = 0
@@ -35,6 +36,7 @@ class Vehicle:
             d = self.dom[a][b]
             total_distance += d
         # calculate total cost
+        self.total_distance = total_distance
         self.total_cost = round(total_distance * self.cost_per_km)
         # calculate loads based on demand
         self.loads = self.calculate_loads()
