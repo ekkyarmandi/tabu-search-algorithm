@@ -14,8 +14,8 @@ def main():
     initial_route = nearest_neighbourhood()
 
     # define vehicles
-    k1 = Vehicle(name="Pick Up", cost_per_km=1111, capacity=1500)
-    k2 = Vehicle(name="Single Truck", cost_per_km=850, capacity=2500)
+    k1 = Vehicle(name="Pick Up", cost_per_km=10000, capacity=1500, devider=9)
+    k2 = Vehicle(name="Single Truck", cost_per_km=6800, capacity=2500, devider=8)
 
     # cluster the route into two and validate solution
     solution = cluster_by_vehicle(k1, k2, initial_route)

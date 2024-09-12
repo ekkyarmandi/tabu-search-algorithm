@@ -7,10 +7,15 @@ class Vehicle:
     dtype = [5.5, 12]  # demand type
 
     def __init__(
-        self, cost_per_km: float | int, capacity: int, name: str = "Vehicle"
+        self,
+        cost_per_km: float | int,
+        capacity: int,
+        name: str = "Vehicle",
+        devider: int = 9,
     ) -> None:
         self.name = name
         self.cost_per_km = cost_per_km
+        self.devider = devider
         self.capacity = capacity
         self.route = []
         self.total_distance = 0
@@ -37,7 +42,7 @@ class Vehicle:
             total_distance += d
         # calculate total cost
         self.total_distance = total_distance
-        self.total_cost = round(total_distance * self.cost_per_km)
+        self.total_cost = (round(total_distance, 1) / self.devider) * self.cost_per_km
         # calculate loads based on demand
         self.loads = self.calculate_loads()
         # check if the loads exceed the capacity
@@ -62,6 +67,13 @@ class Vehicle:
         self.loads = 0
         self.is_feasible = True
         self.total_cost = 0
+
+    def as_data(self):
+        return dict(
+            total_distance=float(round(self.total_distance, 2)),
+            total_loads=self.loads,
+            total_cost=self.total_cost,
+        )
 
     def __str__(self) -> str:
         return f"Vehicle(name='{self.name}',total_cost='Rp{self.total_cost:,.0f}',total_loads={self.loads:,d},route_length={len(self.route)})"
